@@ -19,12 +19,9 @@ interface IRepository<T> {
   find(id: string): T;
 }
 
-interface IMachineRepository extends IRepository<Machine>{
-}
-
 
 // implementations
-class MachineRepository implements IMachineRepository {
+class MachineRepository implements IRepository<Machine> {
 
   private _machines: Machine[] = []
 
