@@ -11,7 +11,7 @@ interface ISubscriber {
 interface IPublishSubscribeService {
   publish (event: IEvent): void;
   subscribe (type: string, handler: ISubscriber): void;
-  // unsubscribe ( /* Question 2 - build this feature */ );
+  unsubscribe (type: string): void;
 }
 
 
@@ -84,11 +84,13 @@ class MachineRefillSubscriber implements ISubscriber {
 }
 
 class DefaultPublishSubscribeService implements IPublishSubscribeService {
-
   private _subscribers: Map<string, ISubscriber[]> = new Map();
 
   publish(event: IEvent): void {
-    this._subscribers.get(event.type())?.forEach(subscriber => subscriber.handle(event))
+    this._subscribers.get(event.type())?.forEach(subscriber => {
+      console.log(event)
+      subscriber.handle(event)
+    })
   }
   subscribe(type: string, handler: ISubscriber): void {
     if (this._subscribers.has(type)) {
@@ -96,7 +98,10 @@ class DefaultPublishSubscribeService implements IPublishSubscribeService {
     } else {
       this._subscribers.set(type, [handler])
     }
-    
+  }
+
+  unsubscribe(type: string): void {
+    this._subscribers.delete(type)
   }
   
 }
@@ -159,5 +164,10 @@ const eventGenerator = (): IEvent => {
 
   // publish the events
   events.map(event => pubSubService.publish(event));
-  machines.forEach(machine => machine.print())
+  machines.forEach(machine => machine.print());
+
+  // test unsubscribe
+  // pubSubService.unsubscribe('sale')
+  // events.map(event => pubSubService.publish(event));
+  // machines.forEach(machine => machine.print());
 })();
