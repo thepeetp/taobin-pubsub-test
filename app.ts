@@ -105,6 +105,7 @@ class MachineSaleSubscriber implements ISubscriber {
   }
 
   handle(event: MachineSaleEvent): void {
+    // When the sold quantity more than stock level should be reject and fire some event
     const machine = this._repository.find(event.machineId())
     machine.stockLevel -= event.getSoldQuantity()
     if(machine.stockLevel < 3 && !machine.lowLevelWarned) {
