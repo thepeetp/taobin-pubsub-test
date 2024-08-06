@@ -77,7 +77,7 @@ class LowStockWarningEvent implements IEvent {
   constructor(private readonly _machineId: string) {}
 
   type(): string {
-    return 'warning'
+    return 'notify'
   }
   machineId(): string {
     return this._machineId;
@@ -88,7 +88,7 @@ class StockLevelOkEvent implements IEvent {
   constructor(private readonly _machineId: string) {}
 
   type(): string {
-    return 'warning'
+    return 'notify'
   }
   machineId(): string {
     return this._machineId;
@@ -236,7 +236,7 @@ const eventGenerator = (): IEvent => {
   // Register Event
   pubSubService.subscribe('sale', saleSubscriber)
   pubSubService.subscribe('refill', refillSubscriber)
-  pubSubService.subscribe('warning', stockWarningSubscriber)
+  pubSubService.subscribe('notify', stockWarningSubscriber)
 
   // create 5 random events
   // const events = [1,2,3,4,5].map(i => eventGenerator());
