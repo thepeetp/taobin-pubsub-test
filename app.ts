@@ -242,7 +242,15 @@ const eventGenerator = (): IEvent => {
   pubSubService.subscribe('warning', stockWarningSubscriber)
 
   // create 5 random events
-  const events = [1,2,3,4,5].map(i => eventGenerator());
+  // const events = [1,2,3,4,5].map(i => eventGenerator());
+
+  // Simulate Events to test Warning
+  const events = [
+    new MachineSaleEvent(2, '001'),
+    new MachineSaleEvent(2, '001'),
+    new MachineRefillEvent(2, '001'),
+    new MachineRefillEvent(2, '001')
+  ]
 
   // publish the events
   events.map(event => pubSubService.publish(event));
