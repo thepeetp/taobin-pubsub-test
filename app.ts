@@ -107,7 +107,7 @@ class MachineSaleSubscriber implements ISubscriber {
   handle(event: MachineSaleEvent): void {
     const machine = this._repository.find(event.machineId())
     machine.stockLevel -= event.getSoldQuantity()
-    if(machine.stockLevel <= 3 && !machine.lowLevelWarned) {
+    if(machine.stockLevel < 3 && !machine.lowLevelWarned) {
       this._pubSubService.publish(new LowStockWarningEvent(machine.id))
       machine.lowLevelWarned = true
     }
